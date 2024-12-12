@@ -1,0 +1,26 @@
+name: Manual Trigger Example
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+      version:
+        description: 'Version to deploy'
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy
+        run: |
+          echo "Deploying to ${{ github.event.inputs.environment }} environment"
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "Deploying version: ${{ github.event.inputs.version }}"
+          fi
